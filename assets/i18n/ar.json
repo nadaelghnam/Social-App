@@ -1,0 +1,51 @@
+{
+  "login":{
+     "title": "تسجيل الدخول إلى Route Posts",
+    "subtitle": "سجل دخولك واستكمل رحلتك على السوشيال.",
+    "emailOrUsername": "البريد الإلكتروني أو اسم المستخدم",
+    "password": "كلمة المرور",
+    "loginBtn": "تسجيل الدخول",
+    "createAccount": "إنشاء حساب جديد",
+    "or": "أو",
+
+    "errors": {
+      "loginRequired": "البريد الإلكتروني أو اسم المستخدم مطلوب.",
+      "loginInvalid": "من فضلك أدخل بريد إلكتروني أو اسم مستخدم صحيح.",
+      "passwordRequired": "كلمة المرور مطلوبة.",
+      "passwordPattern":
+        "يجب أن تحتوي كلمة المرور على حرف كبير وصغير ورقم ورمز خاص."
+    }
+  },
+  "register":{
+  "title": "إنشاء حساب جديد",
+  "subtitle": "الأمر سريع وسهل",
+  "fullName": "الاسم بالكامل",
+  "username": "اسم المستخدم (اختياري)",
+  "email": "البريد الإلكتروني",
+  "genderPlaceholder": "اختر النوع",
+  "male": "ذكر",
+  "female": "أنثى",
+  "dateOfBirth": "تاريخ الميلاد",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "createAccount": "إنشاء حساب جديد",
+  "or": "أو",
+  "alreadyHaveAccount": "لدي حساب بالفعل",
+
+  "nameRequired": "الاسم الكامل مطلوب.",
+  "nameMin": "يجب أن يكون الاسم 3 أحرف على الأقل",
+
+  "emailRequired": "البريد الإلكتروني مطلوب.",
+  "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح.",
+
+  "genderRequired": "يرجى اختيار النوع.",
+
+  "dobRequired": "تاريخ الميلاد مطلوب.",
+
+  "passwordRequired": "كلمة المرور مطلوبة.",
+  "passwordPattern": "يجب أن تحتوي كلمة المرور على حرف كبير وصغير ورقم ورمز خاص",
+
+  "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+  "passwordMismatch": "كلمتا المرور غير متطابقتين."
+}
+}

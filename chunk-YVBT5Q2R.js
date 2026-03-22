@@ -1,0 +1,1 @@
+import{Rb as r,Ya as e,xb as s,yb as n}from"./chunk-3G6AJM7W.js";var a=class t{static \u0275fac=function(o){return new(o||t)};static \u0275cmp=e({type:t,selectors:[["app-forgot-password"]],decls:2,vars:0,template:function(o,m){o&1&&(s(0,"p"),r(1,"forgot-password works!"),n())},encapsulation:2})};export{a as ForgotPasswordComponent};
