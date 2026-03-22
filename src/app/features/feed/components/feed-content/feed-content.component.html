@@ -1,0 +1,182 @@
+<section class="max-w-2xl mx-auto space-y-6">
+  @if (!postsData) {
+  <form #form (submit)="submitForm($event ,form)"
+    class="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 font-sans flex flex-col transition-all hover:shadow-md">
+
+    <div class="flex items-center gap-4 mb-4">
+      <img [src]="userInfo?.photo" alt="User Profile" routerLink="/profile"
+        class="cursor-pointer w-12 h-12 rounded-2xl object-cover shrink-0 bg-slate-100 ring-2 ring-blue-50/50 p-0.5 transition-transform hover:scale-105" />
+
+      <div class="flex flex-col gap-1">
+        <span routerLink="/profile"
+          class="cursor-pointer text-[16px] font-bold text-slate-900 leading-tight hover:text-blue-600 transition-colors">
+          {{ userInfo?.name }}
+        </span>
+
+        <div class="relative inline-flex items-center group">
+          <i class="fa-solid fa-earth-americas absolute left-2.5 text-[10px] text-slate-500 group-hover:text-blue-500 transition-colors"></i>
+          <select [formControl]="privacy"
+            class="appearance-none bg-slate-100 border-none rounded-lg py-1 pl-7 pr-8 text-[11px] font-bold text-slate-600 cursor-pointer focus:ring-2 focus:ring-blue-100 transition-all outline-none uppercase tracking-wider">
+            <option value="public">Public</option>
+            <option value="following">Followers</option>
+            <option value="only_me">Only Me</option>
+          </select>
+          <i class="fa-solid fa-chevron-down absolute right-2.5 text-[9px] text-slate-400 pointer-events-none"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <textarea [formControl]="body"
+        class="w-full bg-slate-50 border-none rounded-2xl p-4 text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all resize-none min-h-[120px] shadow-inner"
+        placeholder="What's on your mind, {{ userInfo?.name?.split(' ')[0] }}?" aria-label="Create a new post"></textarea>
+    </div>
+
+    @if (imgUrl) {
+    <div class="relative w-full mb-4 group animate-in fade-in zoom-in duration-300">
+      <button (click)="closeImgUrl()" type="button"
+        class="absolute top-3 right-3 z-10 bg-black/50 backdrop-blur-md text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-all shadow-lg">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+      <img [src]="imgUrl" class="w-full h-[350px] object-cover rounded-2xl shadow-sm border border-slate-100" alt="Preview">
+    </div>
+    }
+
+    <div class="flex items-center justify-between pt-2 border-t border-slate-50">
+      <input (change)="changeImg($event)" type="file" id="file" class="hidden" />
+      <label for="file"
+        class="flex cursor-pointer items-center gap-2.5 text-slate-600 hover:bg-blue-50 hover:text-blue-600 px-4 py-2 rounded-xl transition-all group">
+        <i class="fa-solid fa-image text-emerald-500 text-lg group-hover:scale-110 transition-transform"></i>
+        <span class="text-[14px] font-bold">Photo / Video</span>
+      </label>
+
+      <button
+        class="cursor-pointer bg-blue-600 text-white px-8 py-2.5 rounded-xl font-bold text-[15px] flex items-center gap-2.5 shadow-lg shadow-blue-100 hover:bg-blue-700 active:scale-95 transition-all focus:ring-4 focus:ring-blue-100 outline-none">
+        <span>Post</span>
+        <i class="fa-solid fa-paper-plane text-[12px] opacity-80"></i>
+      </button>
+    </div>
+  </form>
+  }
+
+  @for (post of displayPosts; track post._id) {
+  <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 font-sans transition-all hover:shadow-md">
+
+    <div class="flex items-start justify-between mb-5">
+      <div class="flex items-center gap-4">
+        <img [src]="post.user.photo" [alt]="post.user.name"
+          class="w-11 h-11 rounded-2xl object-cover shrink-0 bg-slate-100 border border-slate-50 ring-2 ring-transparent hover:ring-blue-100 transition-all" />
+
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="text-[15px] font-bold text-slate-900 leading-tight hover:text-blue-600 cursor-pointer transition-colors">
+              {{ post.user.name }}
+            </span>
+            <span class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-tighter">
+              {{ post.privacy }}
+            </span>
+          </div>
+          <div class="flex items-center text-[12px] text-slate-500 mt-1 gap-1.5">
+            <span class="hover:underline cursor-pointer">@{{ post.user.username }}</span>
+            <span class="text-slate-300">&middot;</span>
+            <span class="hover:underline cursor-pointer">{{ timeAgo(post.createdAt) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative group">
+        <button class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-all">
+          <i class="fa-solid fa-ellipsis text-lg"></i>
+        </button>
+
+        <div class="hidden group-hover:block absolute right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl w-48 z-20 py-2 animate-in fade-in slide-in-from-top-2">
+          <button (click)="saveOrUnsavePost(post._id)" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+            <i [class]="post.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'"></i>
+            {{ post.bookmarked ? 'Unsave Post' : 'Save Post' }}
+          </button>
+
+          @if(post.user._id === userId){
+            <hr class="my-1 border-slate-50">
+            <button (click)="openEditModal(post)" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+              <i class="fa-regular fa-pen-to-square"></i> Edit
+            </button>
+            <button (click)="deletePostItem(post._id)" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors">
+              <i class="fa-regular fa-trash-can"></i> Delete
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div [routerLink]="['/details',post._id]" class="cursor-pointer mb-5">
+      @if(post.body){
+        <p class="text-[15px] text-slate-800 leading-relaxed whitespace-pre-wrap">{{post.body}}</p>
+      }
+
+      @if(post.sharedPost){
+        <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 mt-4 transition-hover hover:bg-slate-50">
+          <div class="flex items-center gap-2 mb-3">
+            <img [src]="post.sharedPost.user.photo" class="w-6 h-6 rounded-lg object-cover" alt="">
+            <span class="font-bold text-[13px] text-slate-900">{{post.sharedPost.user.name}}</span>
+            <span class="text-slate-400 text-[11px]">&middot; {{ timeAgo(post.sharedPost.createdAt) }}</span>
+          </div>
+          <p class="text-[14px] text-slate-700 leading-relaxed">{{post.sharedPost.body}}</p>
+          @if(post.sharedPost.image){
+            <img [src]="post.sharedPost.image" class="w-full max-h-64 object-cover rounded-xl shadow-sm mt-3" alt="" />
+          }
+        </div>
+      }
+
+      @if(post.image){
+        <img [src]="post.image" class="w-full max-h-[450px] object-cover rounded-2xl shadow-sm border border-slate-50 mt-4 transition-transform hover:scale-[1.005]" alt="" />
+      }
+    </div>
+
+    <div class="flex items-center justify-between text-[13px] text-slate-500 mb-4 px-1">
+      <div class="flex items-center gap-2 group cursor-pointer">
+        <div class="flex -space-x-1.5">
+          <div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] ring-2 ring-white shadow-sm">
+            <i class="fa-solid fa-thumbs-up"></i>
+          </div>
+          <div class="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] ring-2 ring-white shadow-sm">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+        </div>
+        <span class="font-bold text-slate-700 group-hover:underline">{{ post.likesCount }} likes</span>
+      </div>
+      <div class="flex items-center gap-4 font-medium text-slate-400">
+        <span class="hover:underline cursor-pointer">{{ post.commentsCount }} comments</span>
+        <span class="hover:underline cursor-pointer">{{ post.sharesCount }} shares</span>
+      </div>
+    </div>
+
+    <hr class="border-slate-50 mb-2" />
+
+    <div class="flex items-center gap-1">
+      <button (click)="likeOrUnlikePost(post._id)"
+        class="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl transition-all group hover:bg-blue-50">
+        <i [class]="post.likes.includes(userId) ? 'fa-solid fa-thumbs-up text-blue-600 scale-110' : 'fa-regular fa-thumbs-up text-slate-400'" class="text-lg transition-all group-hover:scale-110"></i>
+        <span [class.text-blue-600]="post.likes.includes(userId)" class="font-bold text-[14px] text-slate-600">{{ post.likes.includes(userId) ? 'Liked' : 'Like' }}</span>
+      </button>
+
+      <button #commentBtn
+        class="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl transition-all group hover:bg-amber-50">
+        <i class="fa-regular fa-message text-lg text-slate-400 group-hover:text-amber-500 transition-colors"></i>
+        <span class="font-bold text-[14px] text-slate-600 group-hover:text-amber-600">Comment</span>
+      </button>
+
+      <button (click)="openModal(post)"
+        class="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl transition-all group hover:bg-emerald-50">
+        <i class="fa-solid fa-share text-lg text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+        <span class="font-bold text-[14px] text-slate-600 group-hover:text-emerald-600">Share</span>
+      </button>
+    </div>
+
+    @defer (on interaction(commentBtn)) {
+      <div class="mt-4 pt-4 border-t border-slate-50 animate-in fade-in slide-in-from-top-3">
+        <app-comment [postId]="post._id"></app-comment>
+      </div>
+    }
+  </div>
+  }
+</section>

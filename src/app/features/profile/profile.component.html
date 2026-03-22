@@ -1,0 +1,79 @@
+<div class="max-w-4xl mx-auto pt-6 pb-20 px-4 font-sans animate-in fade-in duration-700">
+
+  <div class="bg-white rounded-[3rem] shadow-sm border border-slate-100 overflow-hidden mb-10 transition-all hover:shadow-md">
+    <div class="h-44 md:h-64 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    </div>
+
+    <div class="relative px-6 pb-10 text-center">
+      <div class="relative inline-block -mt-24 md:-mt-32 mb-6">
+        <div class="p-1.5 bg-white rounded-[2.5rem] shadow-2xl">
+          <img [src]="userInfo?.photo" class="w-36 h-36 md:w-52 md:h-52 rounded-[2.2rem] object-cover bg-slate-100 ring-4 ring-slate-50 transition-transform hover:scale-[1.02]">
+        </div>
+        <div class="absolute bottom-4 right-4 w-6 h-6 bg-emerald-500 border-4 border-white rounded-full shadow-lg"></div>
+      </div>
+
+      <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{{ userInfo?.name }}</h1>
+        @if(userInfo?.name) {
+          <div class="flex items-center justify-center gap-2 mt-2">
+            <span class="text-blue-600 font-bold text-sm bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+              @{{ userInfo?.name?.split(' ')?.join('_') | lowercase }}
+            </span>
+            <i class="fa-solid fa-circle-check text-blue-500 text-sm"></i>
+          </div>
+        }
+      </div>
+
+      <div class="max-w-xs mx-auto flex justify-center items-center py-6 bg-slate-50/50 rounded-[2rem] border border-slate-50 shadow-inner">
+        <div class="text-center group cursor-default px-10">
+          <span class="block text-2xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
+            {{ userPosts.length }}
+          </span>
+          <span class="text-[10px] text-slate-400 uppercase font-black tracking-[0.2em]">Total Posts</span>
+        </div>
+        <div class="w-px h-8 bg-slate-200"></div>
+        <div class="text-center group cursor-default px-10">
+          <span class="block text-2xl font-black text-slate-900 group-hover:text-purple-600 transition-colors">
+            {{ userInfo?.followers?.length || 0 }}
+          </span>
+          <span class="text-[10px] text-slate-400 uppercase font-black tracking-[0.2em]">Followers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-2xl mx-auto space-y-8">
+    <div class="flex items-center justify-between px-4 mb-2">
+      <h2 class="text-xl font-black text-slate-800 flex items-center gap-3">
+        <i class="fa-solid fa-layer-group text-blue-500/50 text-sm"></i>
+        My Posts Only
+      </h2>
+    </div>
+
+    @if(isLoading) {
+      <div class="flex flex-col items-center justify-center py-20 space-y-4">
+        <div class="relative w-12 h-12">
+          <div class="absolute inset-0 border-4 border-blue-100 rounded-full"></div>
+          <div class="absolute inset-0 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </div>
+    }
+
+    <div class="animate-in slide-in-from-bottom-10 duration-500">
+      <app-feed-content
+        [postsData]="displayPosts"
+        (fireDelete)="handlePostDeleted($event)"
+        (fireLike)="getUserPosts(userId)"
+        (fireSave)="getUserPosts(userId)">
+      </app-feed-content>
+    </div>
+
+    @if(!isLoading && userPosts.length === 0) {
+      <div class="text-center py-20 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
+        <i class="fa-solid fa-ghost text-4xl text-slate-200 mb-4 block"></i>
+        <p class="text-slate-400 font-bold">You haven't posted anything yet.</p>
+      </div>
+    }
+  </div>
+</div>

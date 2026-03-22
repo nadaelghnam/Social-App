@@ -1,0 +1,130 @@
+<section class="flex items-center justify-center min-h-screen bg-slate-50/50 py-12 px-4">
+  <div class="w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 p-8 md:p-12 animate-in fade-in zoom-in duration-500">
+
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-black text-slate-800 tracking-tighter mb-2">
+        {{ "register.title" | translate }}
+      </h1>
+      <p class="text-slate-400 font-medium italic">
+        {{ "register.subtitle" | translate }}
+      </p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="space-y-5">
+
+      <div class="space-y-1.5">
+        <div class="relative">
+          <input formControlName="name" type="text" id="fullName"
+            [class]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+            class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+            placeholder=" " />
+          <label for="fullName"
+            class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+            {{ "register.fullName" | translate }}
+          </label>
+        </div>
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <p class="text-[11px] font-black text-red-500 ps-2 uppercase tracking-wide">
+            {{ registerForm.get('name')?.hasError('required') ? ("register.nameRequired" | translate) : ("register.nameMin" | translate) }}
+          </p>
+        }
+      </div>
+
+      <div class="relative">
+        <input formControlName="username" type="text" id="userName"
+          class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 border-slate-200 focus:border-blue-500 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+          placeholder=" " />
+        <label for="userName"
+          class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+          {{ "register.username" | translate }}
+        </label>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="relative">
+          <input formControlName="email" type="email" id="email"
+            [class]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+            class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+            placeholder=" " />
+          <label for="email"
+            class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+            {{ "register.email" | translate }}
+          </label>
+        </div>
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <p class="text-[11px] font-black text-red-500 ps-2 uppercase tracking-wide">
+            {{ "register.emailInvalid" | translate }}
+          </p>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <select formControlName="gender" id="gender"
+            class="block w-full px-5 py-3.5 bg-slate-50/50 border-2 border-slate-200 text-slate-700 font-bold text-sm rounded-2xl focus:ring-0 focus:border-blue-500 transition-all appearance-none">
+            <option value="" disabled selected>{{ "register.genderPlaceholder" | translate }}</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div class="relative">
+          <input formControlName="dateOfBirth" type="date" id="date"
+            class="block px-5 pb-3 pt-3.5 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 border-slate-200 focus:border-blue-500 appearance-none focus:outline-none focus:ring-0 peer transition-all" />
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="relative">
+          <input #pass formControlName="password" type="password" id="password"
+            [class]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+            class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+            placeholder=" " />
+          <label for="password"
+            class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+            {{ "register.password" | translate }}
+          </label>
+          <button type="button" (click)="showPassword(pass)" class="absolute top-1/2 end-4 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
+            <i [class]="pass.type ==='password'? 'fa-eye-slash':'fa-eye'" class="fas"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="relative">
+        <input #repass formControlName="rePassword" type="password" id="rePassword"
+          class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 border-slate-200 focus:border-blue-500 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+          placeholder=" " />
+        <label for="rePassword"
+          class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+          {{ "register.confirmPassword" | translate }}
+        </label>
+        <button type="button" (click)="showPassword(repass)" class="absolute top-1/2 end-4 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
+          <i [class]="repass.type ==='password'? 'fa-eye-slash':'fa-eye'" class="fas"></i>
+        </button>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || loading"
+        class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-200 transition-all active:scale-95 flex items-center justify-center gap-3">
+        <span>{{ "register.createAccount" | translate }}</span>
+        @if (loading) { <i class="fas fa-spinner animate-spin"></i> }
+      </button>
+
+      @if(msgError){
+        <div class="bg-red-50 text-red-500 text-[12px] font-bold p-4 rounded-2xl text-center border border-red-100 animate-bounce">
+          {{ msgError | translate }}
+        </div>
+      }
+
+      <div class="relative py-4">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
+        <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-4 text-slate-400 font-bold tracking-widest">{{ "register.or" | translate }}</span></div>
+      </div>
+
+      <button routerLink="/login" type="button"
+        class="w-full bg-slate-50 text-slate-600 hover:bg-slate-100 font-black py-4 rounded-2xl transition-all border border-slate-100">
+        {{ "register.alreadyHaveAccount" | translate }}
+      </button>
+
+    </form>
+  </div>
+</section>

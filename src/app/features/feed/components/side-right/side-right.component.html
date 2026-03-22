@@ -1,0 +1,85 @@
+<aside class="bg-white sticky top-6 rounded-[2rem] shadow-sm border border-slate-100 p-5 font-sans w-full">
+  <div class="flex items-center justify-between mb-6 px-1">
+    <div class="flex items-center gap-2.5">
+      <div class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
+        <i class="fa-solid fa-user-plus text-blue-600 text-sm"></i>
+      </div>
+      <h2 class="font-bold text-slate-800 text-[16px] tracking-tight">Who to follow</h2>
+    </div>
+    <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm shadow-blue-200">
+      {{ suggestedList.length }}
+    </span>
+  </div>
+
+  <div class="relative mb-5 group">
+    <div class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none">
+      <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs group-focus-within:text-blue-500 transition-colors"></i>
+    </div>
+    <input
+      type="text"
+      class="bg-slate-50 border-none text-slate-800 text-sm rounded-2xl focus:ring-4 focus:ring-blue-100 block w-full ps-11 p-3 placeholder-slate-400 outline-none transition-all shadow-inner"
+      placeholder="Find people you know..."
+    />
+  </div>
+
+  <div class="grid gap-4 max-h-[350px] pr-1 overflow-y-auto custom-scrollbar">
+    @for (friend of suggestedList; track friend._id) {
+      <div class="group/item p-1 rounded-2xl transition-all duration-300">
+        <div class="flex items-center gap-3">
+          <div class="relative shrink-0">
+            <img
+              [src]="friend.photo"
+              [alt]="friend.name"
+              class="w-12 h-12 rounded-2xl object-cover bg-slate-100 ring-2 ring-transparent group-hover/item:ring-blue-100 transition-all"
+            />
+            <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></div>
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-col">
+              <span class="text-[14px] font-bold text-slate-900 truncate leading-tight group-hover/item:text-blue-600 transition-colors">
+                {{ friend.name }}
+              </span>
+              <span class="text-[12px] text-slate-500 truncate mt-0.5">@{{ friend.username }}</span>
+            </div>
+          </div>
+
+          <button
+            (click)="followFriend(friend._id)"
+            [class]="friend.isFollowed
+              ? 'bg-emerald-500 text-white shadow-emerald-100'
+              : 'bg-slate-100 text-slate-600 hover:bg-blue-600 hover:text-white'"
+            class="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-300 active:scale-90 shadow-sm"
+            [title]="friend.isFollowed ? 'Unfollow' : 'Follow User'"
+          >
+            <i class="fa-solid transition-transform duration-300"
+               [class.fa-check]="friend.isFollowed"
+               [class.fa-plus]="!friend.isFollowed"
+               [class.scale-110]="friend.isFollowed">
+            </i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 mt-2.5 ml-[60px]">
+           <div class="flex -space-x-2">
+              <div class="w-5 h-5 rounded-full bg-slate-200 border border-white text-[8px] flex items-center justify-center"><i class="fa-solid fa-user"></i></div>
+              <div class="w-5 h-5 rounded-full bg-slate-300 border border-white text-[8px] flex items-center justify-center"><i class="fa-solid fa-user"></i></div>
+           </div>
+           <span class="text-[11px] font-medium text-slate-400">
+             <span class="text-blue-500 font-bold">{{ friend.mutualFollowersCount }}</span> mutual friends
+           </span>
+        </div>
+      </div>
+
+      @if (!$last) {
+        <hr class="border-slate-50 mx-4 opacity-50 my-1">
+      }
+    }
+  </div>
+
+  <button
+    class="w-full cursor-pointer mt-5 py-3 bg-slate-50 text-slate-600 text-[13px] font-bold rounded-2xl hover:bg-blue-50 hover:text-blue-600 transition-all border border-transparent hover:border-blue-100 outline-none"
+  >
+    See Suggestions
+  </button>
+</aside>

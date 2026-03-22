@@ -1,0 +1,43 @@
+{
+  "login": {
+    "title": "Log in to Route Posts",
+    "subtitle": "Log in and continue your social journey.",
+    "emailOrUsername": "Email or Username",
+    "password": "Password",
+    "loginBtn": "Login",
+    "createAccount": "Create new account",
+    "or": "OR",
+    "errors": {
+      "loginRequired": "Email or username is required.",
+      "loginInvalid": "Please enter a valid email or username.",
+      "passwordRequired": "Password is required.",
+      "passwordPattern": "Password must include uppercase, lowercase, number, and special character."
+    }
+  },
+  "register": {
+    "title": "Create a new account",
+    "subtitle": "It is quick and easy",
+    "fullName": "Full Name",
+    "username": "User Name (Optional)",
+    "email": "Email",
+    "genderPlaceholder": "Select Gender",
+    "male": "Male",
+    "female": "Female",
+    "dateOfBirth": "Date of Birth",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "createAccount": "Create New Account",
+    "or": "OR",
+    "alreadyHaveAccount": "I already have an account",
+    "nameRequired": "Full Name is required.",
+    "nameMin": "Name must be at least 3 characters",
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Please enter a valid email address.",
+    "genderRequired": "Please select your gender.",
+    "dobRequired": "Date of birth is required.",
+    "passwordRequired": "Password is required.",
+    "passwordPattern": "Password must include uppercase, lowercase, number, and special character",
+    "confirmPasswordRequired": "Please confirm your Password",
+    "passwordMismatch": "Passwords do not match."
+  }
+}

@@ -1,0 +1,114 @@
+<div class="max-w-3xl mx-auto py-8 px-4">
+
+  <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-6 md:p-8 font-sans transition-all">
+
+    <div class="flex items-start justify-between mb-6">
+      <div class="flex items-center gap-4">
+        <img [src]="postDetails.user.photo" [alt]="postDetails.user.name" routerLink="/profile"
+          class=" cursor-pointer w-14 h-14 rounded-2xl object-cover shrink-0 bg-slate-50 ring-4 ring-blue-50/50 p-0.5 transition-transform hover:scale-105" />
+
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span routerLink="/profile"
+          class=" cursor-pointer text-lg font-black text-slate-900 leading-tight hover:text-blue-600 cursor-pointer transition-colors">
+              {{ postDetails.user.name }}
+            </span>
+            <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm shadow-blue-100">
+              {{ postDetails.privacy }}
+            </span>
+          </div>
+
+          <div class="flex items-center text-sm text-slate-500 mt-1.5 gap-2">
+            <span class="hover:underline cursor-pointer font-medium">@{{ postDetails.user.username }}</span>
+            <span class="text-slate-300">&middot;</span>
+            <span class="font-medium italic">{{timeAgo(postDetails.createdAt)}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative group">
+        <button class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-all border border-transparent hover:border-slate-100">
+          <i class="fa-solid fa-ellipsis text-xl"></i>
+        </button>
+
+        <div class="hidden group-hover:block absolute right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl w-48 z-30 py-2 animate-in fade-in slide-in-from-top-2">
+          <button class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+            <i class="fa-regular fa-bookmark"></i> Save post
+          </button>
+
+          @if(postDetails.user._id === userId){
+            <hr class="my-1 border-slate-50">
+            <button class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+              <i class="fa-regular fa-pen-to-square"></i> Edit post
+            </button>
+            <button (click)="deletePostItem(postDetails._id)"
+              class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors">
+              <i class="fa-regular fa-trash-can"></i> Delete
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      @if(postDetails.body){
+        <p class="text-[17px] text-slate-800 leading-[1.8] whitespace-pre-wrap font-medium mb-4">
+          {{postDetails.body}}
+        </p>
+      }
+
+      @if(postDetails.image){
+        <div class="rounded-[2rem] overflow-hidden border border-slate-100 shadow-md transition-hover hover:shadow-lg">
+          <img [src]="postDetails.image" class="w-full h-auto max-h-[600px] object-cover" alt="Post content" />
+        </div>
+      }
+    </div>
+
+    <div class="flex items-center justify-between text-sm text-slate-500 mb-5 px-1">
+      <div class="flex items-center gap-2 group cursor-pointer">
+        <div class="flex -space-x-2">
+          <div class="w-7 h-7 rounded-full bg-blue-500 text-white flex items-center justify-center ring-2 ring-white">
+            <i class="fa-solid fa-thumbs-up text-[10px]"></i>
+          </div>
+          <div class="w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center ring-2 ring-white">
+            <i class="fa-solid fa-heart text-[10px]"></i>
+          </div>
+        </div>
+        <span class="font-bold text-slate-700 group-hover:underline">{{ postDetails.likesCount }} People liked this</span>
+      </div>
+
+      <div class="flex items-center gap-4 font-bold text-slate-400">
+        <span>{{ postDetails.sharesCount }} Shares</span>
+        <span>{{ postDetails.commentsCount }} Comments</span>
+      </div>
+    </div>
+
+    <hr class="border-slate-50 mb-2" />
+
+    <div class="flex items-center gap-2 py-1">
+      <button class="flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-2xl transition-all group hover:bg-blue-50">
+        <i class="fa-regular fa-thumbs-up text-xl text-slate-400 group-hover:text-blue-600 group-hover:scale-110 transition-all"></i>
+        <span class="font-bold text-slate-600 group-hover:text-blue-600">Like</span>
+      </button>
+
+      <button class="flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-2xl transition-all group hover:bg-amber-50">
+        <i class="fa-regular fa-message text-xl text-slate-400 group-hover:text-amber-500 transition-all"></i>
+        <span class="font-bold text-slate-600 group-hover:text-amber-600">Comment</span>
+      </button>
+
+      <button class="flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-2xl transition-all group hover:bg-emerald-50">
+        <i class="fa-solid fa-share text-xl text-slate-400 group-hover:text-emerald-500 transition-all"></i>
+        <span class="font-bold text-slate-600 group-hover:text-emerald-600">Share</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-8 bg-slate-50/50 rounded-[2.5rem] p-6 border border-slate-100 shadow-inner">
+     <h3 class="text-lg font-black text-slate-800 mb-6 flex items-center gap-3">
+        Discussion
+        <span class="text-xs bg-white text-blue-600 px-3 py-1 rounded-full border border-blue-50 shadow-sm">{{ postDetails.commentsCount }}</span>
+     </h3>
+     <app-comment [postId]="postDetails._id"></app-comment>
+  </div>
+
+</div>

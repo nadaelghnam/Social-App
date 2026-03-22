@@ -1,0 +1,87 @@
+<section class="flex items-center justify-center min-h-screen bg-slate-50/50 py-12 px-4">
+  <div class="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 p-8 md:p-12 animate-in fade-in zoom-in duration-500">
+
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-2xl mb-4 shadow-sm">
+        <img src="/assets/imgs/route.png" class="w-10 h-10 object-contain" alt="Logo">
+      </div>
+      <h1 class="text-4xl font-black text-slate-800 tracking-tighter mb-2">
+        {{ "login.title" | translate }}
+      </h1>
+      <p class="text-slate-400 font-medium italic">
+        {{ "login.subtitle" | translate }}
+      </p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="space-y-6">
+
+      <div class="space-y-1.5">
+        <div class="relative">
+          <input formControlName="login" type="text" id="email"
+            [class]="loginForm.get('login')?.invalid && loginForm.get('login')?.touched ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+            class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+            placeholder=" " />
+          <label for="email"
+            class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+            {{ "login.emailOrUsername" | translate }}
+          </label>
+        </div>
+        @if (loginForm.get('login')?.invalid && loginForm.get('login')?.touched) {
+          <p class="text-[11px] font-black text-red-500 ps-2 uppercase tracking-wide">
+            {{ loginForm.get('login')?.hasError('required') ? ("login.errors.loginRequired" | translate) : ("login.errors.loginInvalid" | translate) }}
+          </p>
+        }
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="relative">
+          <input #pass formControlName="password" type="password" id="password"
+            [class]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+            class="block px-5 pb-3.5 pt-4 w-full text-sm font-bold text-slate-700 bg-slate-50/50 rounded-2xl border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all"
+            placeholder=" " />
+          <label for="password"
+            class="absolute text-sm font-bold text-slate-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-4">
+            {{ "login.password" | translate }}
+          </label>
+          <button type="button" (click)="showPassword(pass)" class="absolute top-1/2 end-4 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
+            <i [class]="pass.type ==='password'? 'fa-eye-slash':'fa-eye'" class="fas"></i>
+          </button>
+        </div>
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <p class="text-[11px] font-black text-red-500 ps-2 uppercase tracking-wide">
+            {{ loginForm.get('password')?.hasError('required') ? ("login.errors.passwordRequired" | translate) : ("login.errors.passwordPattern" | translate) }}
+          </p>
+        }
+      </div>
+
+      <div class="flex justify-end px-1">
+        <a class="text-[12px] font-bold text-blue-600 hover:underline cursor-pointer">Forgot Password?</a>
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || loading"
+        class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-200 transition-all active:scale-95 flex items-center justify-center gap-3">
+        <span>{{ "login.loginBtn" | translate }}</span>
+        @if (loading) { <i class="fas fa-spinner animate-spin"></i> }
+      </button>
+
+      @if(msgError){
+        <div class="bg-red-50 text-red-500 text-[12px] font-bold p-4 rounded-2xl text-center border border-red-100 animate-bounce">
+          {{ msgError | translate }}
+        </div>
+      }
+
+      <div class="relative py-2">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
+        <div class="relative flex justify-center text-xs uppercase">
+          <span class="bg-white px-4 text-slate-400 font-bold tracking-widest">{{ "login.or" | translate }}</span>
+        </div>
+      </div>
+
+      <button routerLink="/register" type="button"
+        class="w-full bg-slate-50 text-slate-600 hover:bg-slate-100 font-black py-4 rounded-2xl transition-all border border-slate-100">
+        {{ "login.createAccount" | translate }}
+      </button>
+
+    </form>
+  </div>
+</section>
